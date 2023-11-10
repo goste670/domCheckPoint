@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./main.css">
+    <script src="./main.js" defer></script>
+    <title>Morroco Shop</title>
+</head>
+
+<body>
+    <div class="full-height-container">
+        <div class="shop-container">
+            <div class="item">
+                <img src="./img/97035593-plat-marocain-avec-des-sardines-farcies-isolé-sur-fond-blanc.jpg" alt="Item 1">
+                <p>serdin</p>
+                <p>Prix : 10 dh / GR</p>
+                <button class="add" onclick="addItemToCart(1)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/Capture d’écran 2015-02-18 à 11.31.14.png" alt="Item 2">
+                <p>foule</p>
+                <p>Prix : 15 dh / bolle</p>
+                <button class="add" onclick="addItemToCart(2)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/couscous.png" alt="Item 3">
+                <p>tagine</p>
+                <p>Prix : 25 dh</p>
+                <button class="add" onclick="addItemToCart(3)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/pasted image 0.png" alt="Item 4">
+                <p>tanjia</p>
+                <p>Prix : 50 dh</p>
+                <button class="add" onclick="addItemToCart(4)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/png-clipart-tajine-morocco-moroccan-cuisine-couscous-others-tajine-morocco.png" alt="Item 5">
+                <p>Tagine</p>
+                <p>Prix : 30 dh</p>
+                <button class="add" onclick="addItemToCart(5)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/tajine_kefta-oeufs.png" alt="Item 6">
+                <p>tagine baid pouti degeunie</p>
+                <p>Prix : 35 dh</p>
+                <button class="add" onclick="addItemToCart(6)">Ajouter au panier</button>
+            </div>
+        </div>
+        <button id="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
+    </div>
+    <div id="cart-container" class="cart-container">
+        <h2>Panier</h2>
+        <ul id="cart-items"></ul>
+        <p class="total">Total : 0 DH</p>
+        <button onclick="clearCart()">Vider le panier</button>
+        <button onclick="checkout()">Acheter</button>
+    </div>
+</body>
+
+
+
+
+</html>

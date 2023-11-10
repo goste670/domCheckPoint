@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!--     <link rel="stylesheet" href="./main.css">
+    <script src="./main.js" defer></script> -->
+    <title>Morocco Shop</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 75% 25%;
+        grid-template-rows: auto 1fr;
+        min-height: 100vh;
+        background-color: rgb(140, 160, 167);
+    }
+
+    .shop-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-height: 2fr;
+        overflow: auto;
+        padding: 20px;
+        background-color: rgb(140, 160, 167);
+        justify-items: center;
+        align-items: center;
+    }
+
+    .full-height-container {
+        background-color: rgb(140, 160, 167);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        padding: 150px;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+        background-color: rgb(50, 64, 68);
+    }
+
+    .item img {
+        max-width: 70%;
+    }
+
+    .cart-container {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100%;
+        width: 25%;
+        background-color: #704e32;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transition: right 0.5s;
+    }
+
+    .cart-container.open {
+        right: 0;
+    }
+
+    #cart-items {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    #cart-items li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        border: 1px solid #fff;
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+    }
+
+    #cart-items img {
+        max-width: 50px;
+        max-height: 50px;
+        margin-right: 10px;
+    }
+
+    .total {
+        font-weight: bold;
+    }
+
+    #cart-toggle {
+        position: fixed;
+        top: 20px;
+        right: 460px;
+        background-color: #000;
+        color: orange;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    #cart-toggle:hover {
+        background-color: #222;
+    }
+
+    .add {
+        margin: 45px;
+    }
+</style>
+
+<body>
+    <div class="full-height-container">
+        <div class="shop-container">
+            <div class="item">
+                <img src="./img/97035593-plat-marocain-avec-des-sardines-farcies-isolé-sur-fond-blanc.jpg" alt="Item 1">
+                <p>serdin</p>
+                <p>Prix : 10 dh / GR</p>
+                <button class="add" onclick="addItemToCart(1)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/Capture d’écran 2015-02-18 à 11.31.14.png" alt="Item 2">
+                <p>foule</p>
+                <p>Prix : 15 dh / bolle</p>
+                <button class="add" onclick="addItemToCart(2)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/couscous.png" alt="Item 3">
+                <p>tagine</p>
+                <p>Prix : 25 dh</p>
+                <button class="add" onclick="addItemToCart(3)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/pasted image 0.png" alt="Item 4">
+                <p>tanjia</p>
+                <p>Prix : 50 dh</p>
+                <button class="add" onclick="addItemToCart(4)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/png-clipart-tajine-morocco-moroccan-cuisine-couscous-others-tajine-morocco.png" alt="Item 5">
+                <p>Tagine</p>
+                <p>Prix : 30 dh</p>
+                <button class="add" onclick="addItemToCart(5)">Ajouter au panier</button>
+            </div>
+            <div class="item">
+                <img src="./img/tajine_kefta-oeufs.png" alt="Item 6">
+                <p>tagine baid pouti degeunie</p>
+                <p>Prix : 35 dh</p>
+                <button class="add" onclick="addItemToCart(6)">Ajouter au panier</button>
+            </div>
+        </div>
+        <button id="cart-toggle" onclick="toggleCart()">🛒 <span id="cart-count">0</span></button>
+    </div>
+    <div id="cart-container" class="cart-container">
+        <h2>Panier</h2>
+        <ul id="cart-items"></ul>
+        <p class="total">Total : 0 DH</p>
+        <button onclick="clearCart()">Vider le panier</button>
+        <button onclick="checkout()">Acheter</button>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addItemToCart(itemId) {
+            const itemName = document.querySelector(`.item:nth-child(${itemId}) p:nth-child(2)`).textContent;
+            const itemImage = document.querySelector(`.item:nth-child(${itemId}) img`).src;
+
+            const item = {
+                id: itemId,
+                name: itemName,
+                price: itemId * 5,
+                image: itemImage
+            };
+
+            cart.push(item);
+            total += item.price;
+            updateCartDisplay();
+            updateCartCounter();
+        }
+
+        function updateCartCounter() {
+            const cartCount = document.getElementById("cart-count");
+            cartCount.textContent = cart.length;
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById("cart-items");
+            cartItems.innerHTML = "";
+            total = 0;
+
+            cart.forEach((item) => {
+                const li = document.createElement("li");
+                const img = document.createElement("img");
+                img.src = item.image;
+                li.appendChild(img);
+
+                const itemDetails = document.createElement("div");
+                itemDetails.classList.add("item-details");
+
+                const itemName = document.createElement("p");
+                itemName.textContent = item.name;
+
+                const itemPrice = document.createElement("p");
+                itemPrice.textContent = `${item.price} DH`;
+
+                itemDetails.appendChild(itemName);
+                itemDetails.appendChild(itemPrice);
+                li.appendChild(itemDetails);
+
+                cartItems.appendChild(li);
+                total += item.price;
+            });
+
+            const totalElement = document.querySelector(".total");
+            totalElement.textContent = `Total : ${total} DH`;
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+            updateCartCounter();
+        }
+
+        function checkout() {
+            if (cart.length > 0) {
+                alert("Achat effectué ! Montant total : " + total + " DH");
+                clearCart();
+            } else {
+                alert("Le panier est vide.");
+            }
+        }
+
+        function toggleCart() {
+            const cartContainer = document.getElementById("cart-container");
+            cartContainer.classList.toggle("open");
+        }
+    </script>
+
+</html>
